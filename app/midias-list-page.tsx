@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CategoriasMultiSelect from "./categorias-multi-select";
+import DebouncedFiltersForm from "./debounced-filters-form";
 import {
   formatarData,
   formatarQuantidade,
@@ -53,34 +53,11 @@ export default async function MidiasListPage({
         </p>
       </header>
 
-      <form className="filters" action="/" method="get">
-        <label>
-          Nome
-          <input
-            type="text"
-            name="nome"
-            defaultValue={filtros.nome ?? ""}
-            placeholder="Buscar por nome"
-          />
-        </label>
-
-        <label>
-          Descricao
-          <input
-            type="text"
-            name="descricao"
-            defaultValue={filtros.descricao ?? ""}
-            placeholder="Buscar por descricao"
-          />
-        </label>
-
-        <CategoriasMultiSelect initialSelected={selectedCategorias} />
-
-        <div className="filter-actions">
-          <button type="submit">Filtrar</button>
-          <Link href="/">Limpar</Link>
-        </div>
-      </form>
+      <DebouncedFiltersForm
+        initialNome={filtros.nome}
+        initialDescricao={filtros.descricao}
+        initialSelectedCategorias={selectedCategorias}
+      />
 
       <div className="lista">
         {midiasPage.results.map((midia) => (
@@ -96,21 +73,6 @@ export default async function MidiasListPage({
             <p className="descricao">
               {midia.descricao ?? "Sem descricao cadastrada."}
             </p>
-
-            <div className="meta-grid">
-              <span>
-                <strong>{formatarQuantidade(midia.quantidadeTemporadas)}</strong>
-                Temporadas
-              </span>
-              <span>
-                <strong>{formatarQuantidade(midia.quantidadeEpisodios)}</strong>
-                Episodios
-              </span>
-              <span>
-                <strong>{formatarData(midia.data_criacao)}</strong>
-                Criacao
-              </span>
-            </div>
 
             <div className="tags">
               {midia.categoriasDetalhes.length > 0 ? (

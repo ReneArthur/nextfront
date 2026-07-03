@@ -139,7 +139,6 @@ export default function CategoriasMultiSelect({
 
   useEffect(() => {
     if (isOpen) {
-      // focus search input when opening
       searchInputRef.current?.focus();
     }
   }, [isOpen]);
